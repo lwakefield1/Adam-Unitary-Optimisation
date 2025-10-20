@@ -121,12 +121,7 @@ Ensure you are using the Qt graphics backend in Octave for multiple figure windo
 
 graphics_toolkit('qt');
 
-This project uses the UC.m function authored by Christoph Spengler (University of Vienna, 2011) for the composite parameterisation of the unitary group 
-𝑈
-(
-𝑑
-)
-U(d).
+This project uses the UC.m function authored by Christoph Spengler (University of Vienna, 2011) for the composite parameterisation of the unitary group U(d).
 
 References
 
