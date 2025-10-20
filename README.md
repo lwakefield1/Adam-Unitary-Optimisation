@@ -3,9 +3,13 @@
 This repository contains an **Octave/MATLAB implementation of the Adam optimiser** for learning unitary matrices.  
 The algorithm builds on the Batch Gradient Descent (BGD) approach but introduces **adaptive moment estimation**, enabling smoother and more stable convergence.
 
-The goal is to approximate a **reference unitary matrix** \( U_\text{ref} \) by iteratively optimising a parameter matrix \( P \), which is mapped to a unitary matrix \( U_\text{test} = UC(P) \) using a composite parameterisation.
+The goal is to approximate a reference unitary matrix `U_ref` by iteratively optimising a parameter matrix `P`,  
+which is mapped to a unitary matrix `U_test = UC(P)` using a composite parameterisation.
 
-This method minimises the **Frobenius norm squared** difference between \( U_\text{ref} \) and \( U_\text{test} \), and outputs the **best unitary matrix found**, its **associated cost**, and the **iteration number** at which convergence occurs.
+This method minimises the Frobenius norm–squared difference between `U_ref` and `U_test`,  
+and outputs the best unitary matrix found (`U_best`), its associated cost,  
+and the iteration number at which convergence occurs.
+
 
 ---
 
