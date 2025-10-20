@@ -69,12 +69,19 @@ The Adam optimiser introduces **moment-based adaptive learning rates**, improvin
 | Figures | Convergence plots showing cost histories, averages, and percentile ranges |
 
 At the end of execution, the console displays:
+
 Best simulation: #3
 Best cost achieved: 2.301e-05
 Iteration number (best): 28
+
 Best Unitary Matrix (U_best):
-0.7071 + 0.7071i ...
+0.7071 + 0.7071i 0.0000 + 0.0000i
+0.0000 + 0.0000i 0.7071 + 0.7071i
 ...
+
+css
+Copy code
+Saved best unitary matrix to **best_unitary_matrix_adam.mat**
 
 ## 🧩 Notes on the Learning Rate (α)
 
