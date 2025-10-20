@@ -120,7 +120,9 @@ save('best_unitary_matrix_adam.mat', 'best_U_overall');
 fprintf('Saved best unitary matrix to best_unitary_matrix_adam.mat\n');
 
 % ---------------------- PLOTS ---------------------- %
-figure;
+
+% 1. Cost history plot
+figure('visible', 'on', 'NumberTitle', 'off', 'Name', 'Cost History', 'Position', [200 200 800 600]);
 set(gca, 'FontSize', 14);
 hold on;
 for sim = 1:num_simulations
@@ -130,14 +132,40 @@ plot(1:num_iter, avg_cost_history, 'k-', 'LineWidth', 2);
 xlabel('Iteration', 'FontSize', 16);
 ylabel('Cost', 'FontSize', 16);
 title('Cost History for Each Simulation (Adam Optimiser)', 'FontSize', 18);
-legend(sprintf('Average (%d Simulations)', num_simulations), 'Location', 'Best', 'FontSize', 14);
+legend(sprintf('Average (%d Simulations)', num_simulations), 'Location', 'northeast', 'FontSize', 14);
 grid on;
+drawnow;
 
-% ---------------------- SAVE CSV ---------------------- %
-data_to_save = [1:num_iter; avg_cost_history'];
-csv_filename = 'cost_history_data_adam.csv';
-csvwrite(csv_filename, data_to_save);
-fprintf('\nData has been saved to %s.\n', csv_filename);
+% 2. Percentile plot
+figure('visible', 'on', 'NumberTitle', 'off', 'Name', 'Percentile Range', 'Position', [250 250 800 600]);
+set(gca, 'FontSize', 14);
+percentile_10_history = prctile(all_cost_history, 10, 2);
+percentile_50_history = prctile(all_cost_history, 50, 2);
+percentile_90_history = prctile(all_cost_history, 90, 2);
+best_percentile_history = min(all_cost_history, [], 2);
+worst_percentile_history = max(all_cost_history, [], 2);
+hold on;
+plot(1:num_iter, avg_cost_history, 'k-', 'LineWidth', 2);
+plot(1:num_iter, percentile_10_history, 'r--', 'LineWidth', 1.5);
+plot(1:num_iter, percentile_50_history, 'c-', 'LineWidth', 1.5);
+plot(1:num_iter, percentile_90_history, 'b--', 'LineWidth', 1.5);
+plot(1:num_iter, best_percentile_history, 'g-.', 'LineWidth', 1.5);
+plot(1:num_iter, worst_percentile_history, 'm-.', 'LineWidth', 1.5);
+xlabel('Iteration', 'FontSize', 16);
+ylabel('Cost', 'FontSize', 16);
+title('Average Cost and Percentile Range (Adam)', 'FontSize', 18);
+legend('Average', '10th', 'Median', '90th', 'Best', 'Worst', 'Location', 'northeast', 'FontSize', 14);
+grid on;
+drawnow;
 
-fprintf('Cost after %d iterations (average simulation): %.5e\n', num_iter, avg_cost_history(end));
+% 3. Iteration count plot
+figure('visible', 'on', 'NumberTitle', 'off', 'Name', 'Iteration Counts', 'Position', [300 300 800 600]);
+set(gca, 'FontSize', 14);
+bar(iteration_counts);
+xlabel('Simulation', 'FontSize', 16);
+ylabel('Cost Function Evaluations', 'FontSize', 16);
+title('Number of Cost Function Evaluations until Cost < 0.01 (Adam)', 'FontSize', 18);
+grid on;
+drawnow;
+
 
