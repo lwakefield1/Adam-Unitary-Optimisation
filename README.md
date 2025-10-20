@@ -16,46 +16,32 @@ The Adam optimiser introduces **moment-based adaptive learning rates**, improvin
 ### Algorithm Outline
 
 1. **Reference Unitary Generation**
-   - A random complex matrix \( A \) is generated and decomposed using QR factorisation:
-     \[
-     [Q, R] = \text{qr}(A)
-     \]
-     ensuring the reference matrix
-     \[
-     U_\text{ref} = Q \cdot \frac{\text{diag}(R)}{|\text{diag}(R)|}
-     \]
+   - A random complex matrix A is generated and decomposed using QR factorisation:  
+     `[Q, R] = qr(A)`  
+     ensuring the reference matrix  
+     `U_ref = Q * diag(diag(R) ./ abs(diag(R)))`  
      is unitary.
 
 2. **Optimisation Loop (Adam Updates)**
-   - Initialise \( P \in \mathbb{R}^{d \times d} \)
-   - Compute \( U_\text{test} = UC(P) \)
-   - Evaluate the cost function:
-     \[
-     C = \|U_\text{ref} - U_\text{test}\|_F^2
-     \]
-   - Compute the gradient numerically using finite differences:
-     \[
-     \frac{\partial C}{\partial P_{ij}} = \frac{C(P_{ij} + \varepsilon) - C(P_{ij} - \varepsilon)}{2 \varepsilon}
-     \]
-   - Update first and second moment estimates:
-     \[
-     m_t = \beta_1 m_{t-1} + (1 - \beta_1) g_t
-     \]
-     \[
-     v_t = \beta_2 v_{t-1} + (1 - \beta_2) g_t^2
-     \]
-   - Bias-correct and update the parameter matrix:
-     \[
-     P_t = P_{t-1} - \alpha \frac{m_t / (1 - \beta_1^t)}{\sqrt{v_t / (1 - \beta_2^t)} + \varepsilon}
-     \]
+   - Initialise `P ∈ ℝ^(d×d)`
+   - Compute `U_test = UC(P)`
+   - Evaluate the cost function:  
+     `C = ||U_ref - U_test||_F²`
+   - Compute the gradient numerically using finite differences:  
+     `∂C/∂P_ij ≈ (C(P_ij + ε) - C(P_ij - ε)) / (2ε)`
+   - Update first and second moment estimates:  
+     `m_t = β₁ m_{t-1} + (1 - β₁) g_t`  
+     `v_t = β₂ v_{t-1} + (1 - β₂) g_t²`
+   - Bias-correct and update the parameter matrix:  
+     `P_t = P_{t-1} - α * (m_t / (1 - β₁ᵗ)) / (sqrt(v_t / (1 - β₂ᵗ)) + ε)`
 
 3. **Convergence and Results**
-   - The algorithm terminates if \( C < 0.01 \) or the maximum iteration count is reached.
+   - The algorithm terminates if `C < 0.01` or the maximum iteration count is reached.
    - Tracks:
      - Cost per iteration  
      - Best cost achieved  
-     - Best unitary matrix \( U_\text{best} \)  
-     - Iteration number of the best result  
+     - Best unitary matrix (U_best)  
+     - Iteration number of the best result
 
 ---
 
